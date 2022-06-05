@@ -1,1 +1,1 @@
-export { useTestResource} from './useTestResource';
+export * from "./apiHooks";

@@ -7,21 +7,23 @@ type TReturn<T> = {
   refetch: () => void;
 };
 
-export const getUseResource = <T>(callback: () => Promise<T>) => {
-  const useResource = (): TReturn<T> => {
+export const getUseResource = <T, P = any>(
+  callback: (params?: P) => Promise<T>
+) => {
+  const useResource = (params?: P): TReturn<T> => {
     const [data, setData] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
-    const fetchData = () => {
+    const fetchData = (params?: P) => {
       setIsLoading(true);
-      callback()
+      callback(params)
         .then((value) => setData(value))
         .catch((err) => setError(err))
         .finally(() => setIsLoading(false));
     };
 
-    useEffect(fetchData, []);
+    useEffect(() => fetchData(params), [params]);
 
     return { data, isLoading, error, refetch: fetchData };
   };

@@ -1,0 +1,1 @@
+export { useTestResource} from './useTestResource';

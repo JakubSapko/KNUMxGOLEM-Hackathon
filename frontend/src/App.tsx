@@ -4,7 +4,7 @@ import {
   MarkersMap,
   TestPage,
 } from "./components";
-import { FetchTest } from "./components/FetchTest";
+import { FetchTest, PostTest } from "./components/FetchTest";
 import { LocalizationsContextProvider } from "./contexts";
 
 function App() {
@@ -12,7 +12,7 @@ function App() {
     <LocalizationsContextProvider>
       <Layout>
         <TestPage />
-        <FetchTest />
+        <PostTest />
         <CurrentLocalization />
         <MarkersMap />
       </Layout>

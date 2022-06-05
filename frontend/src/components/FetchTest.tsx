@@ -1,5 +1,17 @@
 import { Button } from "antd";
-import { useTestResource } from "../hooks";
+import { useFakeMetric, useTestResource } from "../hooks";
+import { getUseResource } from "../hooks/getUseResource";
+
+export const PostTest = () => {
+  const { data, error } = useFakeMetric();
+
+  return (
+    <div>
+      <h2>{data ? JSON.stringify(data) : "No data..."} </h2>
+      <p>{error && error.message}</p>
+    </div>
+  );
+};
 
 export const FetchTest = () => {
   const { data, refetch } = useTestResource();

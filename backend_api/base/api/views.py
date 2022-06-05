@@ -9,6 +9,7 @@ from base.models import Test
 def getRoutes(request):
     routes = [
         '/api/test_data',
+        '/api/test',
     ]
     return Response(routes)
 
@@ -18,6 +19,6 @@ def getTest(request):
     serializer = TestSerializer(tests, many=True)
     return Response(serializer.data)
 
-@api_view(['GET'])
+@api_view(['GET', 'POST'])
 def peepeepoopoo(request):
     return Response(request.data)

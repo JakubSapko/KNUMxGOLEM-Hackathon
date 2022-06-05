@@ -1,6 +1,6 @@
 import { Row, Col } from "antd";
 import styled from "styled-components";
-import { FlatsRoom, TransactionsOverTime } from "./Charts";
+import { Histogram, TransactionsOverTime } from "./Charts";
 import { CurrentLocalization } from "./CurrentLocalization";
 import { MarkersMap } from "./Map";
 
@@ -19,7 +19,7 @@ export const DashboardPage: React.FC = () => {
         </MapWrapper>
       </Col>
       <Col>
-        <FlatsRoom />
+        <Histogram xLabel="Number of rooms" yLabel="Count" />
         <TransactionsOverTime />
       </Col>
     </Row>

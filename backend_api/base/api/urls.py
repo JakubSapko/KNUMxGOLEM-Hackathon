@@ -4,5 +4,6 @@ from . import views
 urlpatterns=[
     path('', views.getRoutes),
     path('test_data/', views.getTest),
-    path('test/', views.getFakeMetric)
+    path('test/', views.getFakeMetric),
+    path('markers/', views.getMarkers),
 ]

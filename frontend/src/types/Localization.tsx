@@ -1,4 +1,4 @@
-import { LatLngExpression } from "leaflet";
+import { LatLngBounds } from "leaflet";
 
 export enum LocalizationType {
   District = "district",
@@ -25,7 +25,7 @@ export class Localization {
     private lat: number
   ) {}
 
-  get position(): LatLngExpression {
+  get position() {
     return [this.lat, this.lon];
   }
 
@@ -50,8 +50,19 @@ export class Localization {
     }
   }
 
-  getIsVisible(zoom: number): boolean {
+  getIsTypeVisible(zoom: number): boolean {
     const [min, max] = VisiblityThresholds[this.type];
     return min > zoom && zoom >= max;
+  }
+
+  getIsInBounds(bounds: LatLngBounds): boolean {
+    const [y, x] = this.position;
+
+    const isXInBounds = bounds.getEast() >= x && x >= bounds.getWest();
+    const isYInBounds = bounds.getSouth() <= y && y <= bounds.getNorth();
+
+    const isInBounds = isXInBounds && isYInBounds;
+
+    return isInBounds;
   }
 }

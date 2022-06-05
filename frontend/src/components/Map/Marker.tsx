@@ -1,22 +1,36 @@
+import { LatLngExpression } from "leaflet";
 import { useState } from "react";
-import { Marker as MarkerComponent, Popup, useMapEvent } from "react-leaflet";
+import { Marker as MarkerComponent, Popup, useMapEvents } from "react-leaflet";
 import { useLocalizationsContext } from "../../contexts";
 import { Localization } from "../../types";
 
 const useLocalizationVisible = (localization: Localization): boolean => {
-  const map = useMapEvent("zoom", () => {
-    const zoom = map.getZoom();
+  const map = useMapEvents({
+    zoom: () => {
+      const zoom = map.getZoom();
 
-    setIsVisible(localization.getIsVisible(zoom));
+      setIsTypeVisible(localization.getIsTypeVisible(zoom));
+    },
+    move: () => {
+      const bounds = map.getBounds();
+
+      setIsInBounds(localization.getIsInBounds(bounds));
+    },
   });
 
-  const [isVisible, setIsVisible] = useState(() => {
+  const [isTypeVisible, setIsTypeVisible] = useState(() => {
     const zoom = map.getZoom();
 
-    return localization.getIsVisible(zoom);
+    return localization.getIsTypeVisible(zoom);
   });
 
-  return isVisible;
+  const [isInBounds, setIsInBounds] = useState(() => {
+    const bounds = map.getBounds();
+
+    return localization.getIsInBounds(bounds);
+  });
+
+  return isTypeVisible && isInBounds;
 };
 
 type Props = { localization: Localization };
@@ -35,7 +49,7 @@ export const Marker = ({ localization }: Props) => {
 
   return (
     <MarkerComponent
-      position={localization.position}
+      position={localization.position as LatLngExpression}
       eventHandlers={{ click: handleSelect }}
     >
       <Popup>{localization.name}</Popup>

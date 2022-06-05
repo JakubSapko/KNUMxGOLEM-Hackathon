@@ -1,11 +1,5 @@
-import {
-  CurrentLocalization,
-  Layout,
-  MarkersMap,
-  TestPage,
-} from "./components";
+import { Layout } from "./components";
 import { DashboardPage } from "./components/DashboardPage";
-import { FetchTest } from "./components/FetchTest";
 import { LocalizationsContextProvider } from "./contexts";
 
 function App() {
@@ -13,10 +7,6 @@ function App() {
     <LocalizationsContextProvider>
       <Layout>
         <DashboardPage />
-        {/* <TestPage />
-        <FetchTest />
-        <CurrentLocalization />
-        <MarkersMap /> */}
       </Layout>
     </LocalizationsContextProvider>
   );

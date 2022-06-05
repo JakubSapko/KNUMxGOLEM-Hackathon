@@ -1,4 +1,5 @@
 import { Column } from "@ant-design/plots";
+import { ChartWrapper } from "./styled";
 
 const mockData = [
   {
@@ -33,5 +34,9 @@ export const FlatsRoom: React.FC = () => {
     },
   };
 
-  return <Column {...config} className="inner" />;
+  return (
+    <ChartWrapper>
+      <Column {...config} className="inner" />
+    </ChartWrapper>
+  );
 };

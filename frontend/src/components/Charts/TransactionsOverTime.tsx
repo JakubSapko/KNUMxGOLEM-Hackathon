@@ -1,4 +1,5 @@
 import { Line } from "@ant-design/plots";
+import { ChartWrapper } from "./styled";
 
 const mockData = [
   { name: "Warszawa", time: "I", value: 20 },
@@ -38,5 +39,9 @@ export const TransactionsOverTime: React.FC = () => {
     },
   };
 
-  return <Line {...config} />;
+  return (
+    <ChartWrapper>
+      <Line {...config} />
+    </ChartWrapper>
+  );
 };

@@ -17,3 +17,7 @@ def getTest(request):
     tests = Test.objects.all()
     serializer = TestSerializer(tests, many=True)
     return Response(serializer.data)
+
+@api_view(['GET'])
+def peepeepoopoo(request):
+    return Response(request.data)

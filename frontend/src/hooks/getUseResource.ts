@@ -1,21 +1,21 @@
 import { useEffect, useState } from "react";
 
-type TReturn<T> = {
+type TReturn<T, P> = {
   data: T | null;
   isLoading: boolean;
   error: Error | null;
-  refetch: () => void;
+  refetch: (params: P) => void;
 };
 
 export const getUseResource = <T, P = any>(
-  callback: (params?: P) => Promise<T>
+  callback: (params: P) => Promise<T>
 ) => {
-  const useResource = (params?: P): TReturn<T> => {
+  const useResource = (params: P): TReturn<T, P> => {
     const [data, setData] = useState<T | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<Error | null>(null);
 
-    const fetchData = (params?: P) => {
+    const fetchData = (params: P) => {
       setIsLoading(true);
       callback(params)
         .then((value) => setData(value))
@@ -23,7 +23,7 @@ export const getUseResource = <T, P = any>(
         .finally(() => setIsLoading(false));
     };
 
-    useEffect(() => fetchData(params), [params]);
+    useEffect(() => fetchData(params), []);
 
     return { data, isLoading, error, refetch: fetchData };
   };

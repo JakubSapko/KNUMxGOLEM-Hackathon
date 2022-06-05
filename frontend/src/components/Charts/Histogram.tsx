@@ -4,54 +4,26 @@ import {
 } from "@ant-design/plots";
 import { ChartWrapper } from "./styled";
 
-const mockData = [
-  {
-    value: 2,
-  },
-  {
-    value: 1,
-  },
-  {
-    value: 2,
-  },
-  {
-    value: 4,
-  },
-  {
-    value: 6,
-  },
-  {
-    value: 2,
-  },
-  {
-    value: 3,
-  },
-  {
-    value: 3,
-  },
-];
-
-type HistogramEntry = {
-  x: string | number;
-  y: number;
-};
-
 type Props = {
-  data?: HistogramEntry[];
+  data: number[];
+  isLoading?: boolean;
   xLabel?: string;
   yLabel?: string;
 };
 
 export const Histogram: React.FC<Props> = ({
-  data = mockData,
+  data,
+  isLoading,
   xLabel,
   yLabel,
 }) => {
+  const mappedData = data.map((value) => ({ value }));
+
   const config: HistogramConfig = {
-    data,
+    data: mappedData,
     binField: "value",
     binWidth: 1,
-
+    loading: isLoading,
     xAxis: {
       alias: xLabel,
       title: { text: xLabel },

@@ -1,4 +1,9 @@
+import { RoomsCountHistogram } from "../hooks";
+import { getMockedRoomsCountHistogram } from "./mocks";
+
 export type TestResponse = [string];
+
+export type RoomsCountHistogramParams = { id: string };
 
 const get = (url: string) => fetch(url);
 
@@ -26,12 +31,20 @@ class Api {
   getFakeMetric = async () => {
     const url = this.getUrl("test/");
 
-    const data = {  metric_name: "dupsko" };
+    const data = { metric_name: "dupsko" };
 
     const response = await post(url, data);
     const result: any = await response.json();
 
     return result;
+  };
+
+  getRoomsCountHistogram = async ({ id }: RoomsCountHistogramParams) => {
+    const response = (await new Promise((resolve) =>
+      setTimeout(() => resolve(getMockedRoomsCountHistogram()), 1000)
+    )) as RoomsCountHistogram;
+
+    return response;
   };
 
   getUrl = (endpoint: string) => {

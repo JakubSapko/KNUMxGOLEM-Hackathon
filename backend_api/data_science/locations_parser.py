@@ -1,7 +1,13 @@
+import sqlite3
+import numpy as np 
 import pandas as pd
 import matplotlib.pyplot as plt
 from itertools import dropwhile, takewhile
-import numpy as np 
+import sqlite3
+
+conn = sqlite3.connect('dupa.sqlite3')
+c = conn.cursor()
+
 
 
 '''districts and cities'''
@@ -32,5 +38,7 @@ df_locations.drop('id', inplace=True, axis=1)
 df_locations.rename({ "name_pl": "region_name" }, inplace=True, axis=1)
 
 df_locations['id'] = df_locations.index + 1
+
+df_locations.to_sql('dupa.sqlite3', conn, if_exists="replace")
 
 

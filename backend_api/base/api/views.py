@@ -5,8 +5,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.core.exceptions import BadRequest
 
-from .serializers import TestSerializer
-from base.models import Test
+from .serializers import BaseTestSerializer, DupaSlite3Serializer, TestSerializer
+from base.models import BaseTest, DupaSqlite3
 
 @api_view(['GET'])
 def getRoutes(request):
@@ -18,8 +18,8 @@ def getRoutes(request):
 
 @api_view(['GET'])
 def getTest(request):
-    tests = Test.objects.all()
-    serializer = TestSerializer(tests, many=True)
+    tests = BaseTest.objects.all()
+    serializer = BaseTestSerializer(tests, many=True)
     return Response(serializer.data)
 
 @api_view(['GET', 'POST'])
@@ -33,6 +33,12 @@ def getFakeMetric(request):
     output = handleRequest(id, metric_name)
     return Response(output)
 
+@api_view(['GET', 'POST'])
+def getMarkers(request):
+    markers = DupaSqlite3.objects.all()
+    serializer = DupaSlite3Serializer(markers, many=True)
+
+    return Response(serializer.data)
 
 def handleRequest(id, metric_name):
     return {"result": f"Przyjalem metryke o id {id} i metric_name {metric_name}"}

@@ -1,5 +1,9 @@
-import { Layout, MarkersMap } from "./components";
-import { TestPage } from "./components/TestPage";
+import {
+  CurrentLocalization,
+  Layout,
+  MarkersMap,
+  TestPage,
+} from "./components";
 import { LocalizationsContextProvider } from "./contexts";
 
 function App() {
@@ -7,6 +11,7 @@ function App() {
     <LocalizationsContextProvider>
       <Layout>
         <TestPage />
+        <CurrentLocalization />
         <MarkersMap />
       </Layout>
     </LocalizationsContextProvider>

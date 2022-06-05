@@ -1,67 +1,14 @@
-import { createContext, ReactNode, useContext } from "react";
+import { createContext, ReactNode, useContext, useState } from "react";
 import { Localization } from "../types";
+import { localizationsMock } from "./localizationsMock";
 
-const regionName = "Mazowieckie";
-const cityName = "Londek";
+type ContextType = {
+  localizations: Localization[];
+  currentLocalization: Localization | null;
+  handleLocalizationChange: (localizationId: string) => void;
+};
 
-const LocalizationsContext = createContext<Localization[] | null>(null);
-
-const districtsMock = new Array(5)
-  .fill(0)
-  .map(
-    (_, id) =>
-      new Localization(
-        String(id),
-        String(id),
-        String(id),
-        String(id),
-        String(id),
-        cityName,
-        regionName,
-        -0.09 + Math.random() - 0.5,
-        51.505 + Math.random() - 0.5
-      )
-  );
-
-const citiesMock = new Array(5)
-  .fill(0)
-  .map(
-    (_, id) =>
-      new Localization(
-        String(id),
-        null,
-        String(id),
-        String(id),
-        null,
-        cityName,
-        regionName,
-        -0.09 + Math.random() - 0.5,
-        51.505 + Math.random() - 0.5
-      )
-  );
-
-const regionsMock = new Array(5)
-  .fill(0)
-  .map(
-    (_, id) =>
-      new Localization(
-        String(id),
-        null,
-        null,
-        String(id),
-        null,
-        null,
-        regionName,
-        -0.09 + Math.random() - 0.5,
-        51.505 + Math.random() - 0.5
-      )
-  );
-
-const localizationsMock: Localization[] = [
-  ...districtsMock,
-  ...citiesMock,
-  ...regionsMock,
-];
+const LocalizationsContext = createContext<ContextType | null>(null);
 
 type Props = {
   children: ReactNode;
@@ -70,16 +17,29 @@ type Props = {
 export const LocalizationsContextProvider = ({ children }: Props) => {
   const localizations = localizationsMock;
 
-  console.log({ localizations });
+  const [currentLocalization, setCurrentLocalization] =
+    useState<Localization | null>(null);
+
+  const handleLocalizationChange = (localizationId: string) => {
+    const localization = localizations.find((loc) => loc.id === localizationId);
+
+    setCurrentLocalization(localization || null);
+  };
+
+  const value: ContextType = {
+    localizations,
+    currentLocalization,
+    handleLocalizationChange,
+  };
 
   return (
-    <LocalizationsContext.Provider value={localizations}>
+    <LocalizationsContext.Provider value={value}>
       {children}
     </LocalizationsContext.Provider>
   );
 };
 
-export const useLocalizationsContext = (): Localization[] => {
+export const useLocalizationsContext = (): ContextType => {
   const localizations = useContext(LocalizationsContext);
 
   if (!localizations) {

@@ -6,7 +6,7 @@ import { Marker } from "./Marker";
 const DEFAULT_POSITION: LatLngExpression = [51.505, -0.09];
 
 export const MarkersMap = () => {
-  const localizations = useLocalizationsContext();
+  const { localizations } = useLocalizationsContext();
 
   return (
     <MapContainer center={DEFAULT_POSITION} zoom={13} trackResize>

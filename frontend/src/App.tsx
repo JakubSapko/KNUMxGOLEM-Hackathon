@@ -1,15 +1,15 @@
-import { Layout } from "./components";
-import { TestChart } from "./components/TestChart";
-import { TestMap } from "./components/TestMap";
+import { Layout, MarkersMap } from "./components";
 import { TestPage } from "./components/TestPage";
+import { LocalizationsContextProvider } from "./contexts";
 
 function App() {
   return (
-    <Layout>
-      <TestPage />
-      {/* <TestChart /> */}
-      <TestMap />
-    </Layout>
+    <LocalizationsContextProvider>
+      <Layout>
+        <TestPage />
+        <MarkersMap />
+      </Layout>
+    </LocalizationsContextProvider>
   );
 }
 

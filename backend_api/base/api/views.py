@@ -5,7 +5,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.core.exceptions import BadRequest
 
-from .serializers import BaseTestSerializer, DupaSlite3Serializer, TestSerializer
+from .serializers import BaseTestSerializer, DupaSlite3Serializer
 from base.models import BaseTest, DupaSqlite3
 
 @api_view(['GET'])

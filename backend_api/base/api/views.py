@@ -1,3 +1,4 @@
+import json
 from xmlrpc.client import ResponseError
 from django.http import JsonResponse
 from rest_framework.response import Response
@@ -23,10 +24,12 @@ def getTest(request):
 
 @api_view(['GET', 'POST'])
 def getFakeMetric(request):
-    if (not ( "id" in request.data or "metric_name" in request.data)):
+    body_uni = request.body.decode('utf-8')
+    body = json.loads(body_uni)
+    if (not ( body["id"] or body["metric_name"])):
         raise BadRequest('Invalid request.')        
-    id = request.data.id
-    metric_name = request.data.metric_name
+    id = body["id"]
+    metric_name = body["metric_name"]
     output = handleRequest(id, metric_name)
     return Response(output)
 

@@ -21,12 +21,24 @@ export class Localization {
     private districtName: string | null,
     private cityName: string | null,
     private regionName: string | null,
-    private lon: number,
-    private lat: number
+    private regionLon: number,
+    private regionLat: number,
+    private cityLon: number,
+    private cityLat: number,
+    private districtLon: number,
+    private districtLat: number
   ) {}
 
   get position() {
-    return [this.lat, this.lon];
+    switch (this.type) {
+      case LocalizationType.District:
+        return [this.districtLat, this.districtLon];
+      case LocalizationType.City:
+        return [this.cityLat, this.cityLon];
+      case LocalizationType.Region:
+      default:
+        return [this.regionLat, this.regionLon];
+    }
   }
 
   get name(): string {

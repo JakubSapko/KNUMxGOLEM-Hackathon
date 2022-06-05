@@ -4,6 +4,7 @@ import {
   MarkersMap,
   TestPage,
 } from "./components";
+import { DashboardPage } from "./components/DashboardPage";
 import { FetchTest } from "./components/FetchTest";
 import { LocalizationsContextProvider } from "./contexts";
 
@@ -11,10 +12,11 @@ function App() {
   return (
     <LocalizationsContextProvider>
       <Layout>
-        <TestPage />
+        <DashboardPage />
+        {/* <TestPage />
         <FetchTest />
         <CurrentLocalization />
-        <MarkersMap />
+        <MarkersMap /> */}
       </Layout>
     </LocalizationsContextProvider>
   );

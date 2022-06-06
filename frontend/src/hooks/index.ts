@@ -1,3 +1,5 @@
-export * from "./apiHooks";
-
-export { type RoomsCountHistogram, useRoomsCountHistogram } from "./dashboards";
+export {
+  type RoomsCountHistogram,
+  useMarkers,
+  useRoomsCountHistogram,
+} from "./apiHooks";

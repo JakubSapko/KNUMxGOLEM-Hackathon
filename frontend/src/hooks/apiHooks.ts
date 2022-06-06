@@ -1,7 +1,12 @@
 import { api } from "../services";
-import { TestResponse } from "../services/api";
+import { RoomsCountHistogramParams } from "../services/api";
 import { getUseResource } from "./getUseResource";
 
-export const useTestResource = getUseResource<TestResponse>(api.getTest);
+export type RoomsCountHistogram = number[];
 
-export const useFakeMetric = getUseResource<any>(api.getFakeMetric);
+export const useRoomsCountHistogram = getUseResource<
+  RoomsCountHistogram,
+  RoomsCountHistogramParams
+>((params?: RoomsCountHistogramParams) => api.getRoomsCountHistogram(params!));
+
+export const useMarkers = getUseResource(api.getMarkers);

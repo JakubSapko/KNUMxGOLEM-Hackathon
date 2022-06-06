@@ -1,6 +1,6 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useMemo, useState } from "react";
+import { useMarkers } from "../hooks";
 import { Localization } from "../types";
-import { localizationsMock } from "./localizationsMock";
 
 type ContextType = {
   localizations: Localization[];
@@ -15,7 +15,34 @@ type Props = {
 };
 
 export const LocalizationsContextProvider = ({ children }: Props) => {
-  const localizations = localizationsMock;
+  const { data } = useMarkers();
+
+  const localizations = useMemo(() => {
+    if (!data) {
+      return [];
+    }
+
+    return data.map(
+      (dto) =>
+        new Localization(
+          String(dto.id),
+          String(dto.district_id),
+          String(dto.city_id),
+          String(dto.region_id),
+          dto.district_name,
+          dto.city_name,
+          dto.region_name,
+          dto.lon_region,
+          dto.lat_region,
+          dto.lon_city,
+          dto.lat_city,
+          dto.lon_district,
+          dto.lat_district
+        )
+    );
+  }, [data]);
+
+  console.log({ localizations });
 
   const [currentLocalization, setCurrentLocalization] =
     useState<Localization | null>(null);

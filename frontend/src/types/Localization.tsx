@@ -7,44 +7,78 @@ export enum LocalizationType {
 }
 
 const VisiblityThresholds = {
-  [LocalizationType.District]: [Infinity, 11],
-  [LocalizationType.City]: [11, 9],
-  [LocalizationType.Region]: [9, -Infinity],
+  [LocalizationType.District]: [30, 12],
+  [LocalizationType.City]: [12, 9],
+  [LocalizationType.Region]: [9, 0],
 };
 
 export class Localization {
+  type: LocalizationType;
+  name: string;
+  position: [number, number];
+
+  readonly districtId: string | null;
+  readonly cityId: string | null;
+  readonly regionId: string | null;
+
   constructor(
     readonly id: string,
-    readonly districtId: string | null,
-    readonly cityId: string | null,
-    readonly regionId: string | null,
-    private districtName: string | null,
-    private cityName: string | null,
-    private regionName: string | null,
-    private regionLon: number,
-    private regionLat: number,
-    private cityLon: number,
-    private cityLat: number,
-    private districtLon: number,
-    private districtLat: number
-  ) {}
+    districtId: string | null,
+    cityId: string | null,
+    regionId: string | null,
+    districtName: string | null,
+    cityName: string | null,
+    regionName: string,
+    regionLon: number,
+    regionLat: number,
+    cityLon: number | null,
+    cityLat: number | null,
+    districtLon: number | null,
+    districtLat: number | null
+  ) {
+    this.districtId = districtId === "null" ? null : districtId;
+    this.cityId = cityId === "null" ? null : cityId;
+    this.regionId = regionId;
 
-  get position() {
+    this.type = this.getType(this.districtId, this.cityId);
+    this.name = this.getName(regionName, cityName, districtName);
+    this.position = this.getPosition(
+      districtLat,
+      districtLon,
+      cityLat,
+      cityLon,
+      regionLat,
+      regionLon
+    );
+  }
+
+  getPosition(
+    districtLat: number | null,
+    districtLon: number | null,
+    cityLat: number | null,
+    cityLon: number | null,
+    regionLat: number,
+    regionLon: number
+  ) {
     switch (this.type) {
       case LocalizationType.District:
-        return [this.districtLat, this.districtLon];
+        return [districtLat, districtLon] as [number, number];
       case LocalizationType.City:
-        return [this.cityLat, this.cityLon];
+        return [cityLat!, cityLon!] as [number, number];
       case LocalizationType.Region:
       default:
-        return [this.regionLat, this.regionLon];
+        return [regionLat, regionLon] as [number, number];
     }
   }
 
-  get name(): string {
-    const district = this.districtName;
-    const city = this.cityName;
-    const region = this.regionName;
+  getName(
+    regionName: string,
+    cityName: string | null,
+    districtName: string | null
+  ): string {
+    const district = districtName;
+    const city = cityName;
+    const region = regionName;
 
     const citySuffix = city ? `, ${city}` : "";
     const districtSuffix = district ? `, ${district}` : "";
@@ -52,10 +86,10 @@ export class Localization {
     return `${region}${citySuffix}${districtSuffix}`;
   }
 
-  get type(): LocalizationType {
-    if (this.districtId) {
+  getType(districtId: string | null, cityId: string | null): LocalizationType {
+    if (districtId) {
       return LocalizationType.District;
-    } else if (this.cityId) {
+    } else if (cityId) {
       return LocalizationType.City;
     } else {
       return LocalizationType.Region;
